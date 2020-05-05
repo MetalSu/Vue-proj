@@ -1,36 +1,50 @@
 <template>
-  <div class="page-search">
-    <!-- 头部 -->
-    <headerBox></headerBox>
-    <!-- 搜索框 -->
-    <searchBox></searchBox>
-    <!-- 搜索提示 -->
-    <uni-view data-v-75b6f434 class="group">
-      <uni-view data-v-75b6f434 class="group-title">音乐风格</uni-view>
-      <uni-view data-v-75b6f434 class="group-list">
-        <div data-v-75b6f434 class="tag" v-for='item in searchParam' :key="item.key" @click="goToResult(item.key)">{{ item.showName }}</div>
-      </uni-view>
-    </uni-view>
-  </div>
+  <div data-v-75b6f434 class="search">
+      <div data-v-75b6f434 class="s-left">
+        <div data-v-75b6f434 class="icon">
+          <div data-v-75b6f434>
+            <div
+              style="background-position: 0% 0%; background-size: 100% 100%; background-repeat: no-repeat; background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAMAAADX9CSSAAAAM1BMVEUAAAC8vLy8vLy9vb27u7u8vLy/v7+9vb2/v7+8vLy8vLy8vLy7u7u9vb27u7u7u7u7u7uNEF5lAAAAEHRSTlMA89tTpH4wHwy9iprlyYdxyi6iUQAAAIZJREFUKM91kVkOwyAMBbFZszSd+5+2SHEVt8D7imbCA0y4E5OKaIrBYlSxqDc7LvsPllxaK1mciMBW7++6AValHT+dXej3d6kPr2ILEuTgkiFZTfG8WJFA87yBrPiqZ7Xv8pzjvV6gkzl0TJzPjWM2ZxPjuyQTwzua+IuJayYOOMMs1/n+ALRtCdMh8+jaAAAAAElFTkSuQmCC&quot;);"
+            ></div>
+            <img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAMAAADX9CSSAAAAM1BMVEUAAAC8vLy8vLy9vb27u7u8vLy/v7+9vb2/v7+8vLy8vLy8vLy7u7u9vb27u7u7u7u7u7uNEF5lAAAAEHRSTlMA89tTpH4wHwy9iprlyYdxyi6iUQAAAIZJREFUKM91kVkOwyAMBbFZszSd+5+2SHEVt8D7imbCA0y4E5OKaIrBYlSxqDc7LvsPllxaK1mciMBW7++6AValHT+dXej3d6kPr2ILEuTgkiFZTfG8WJFA87yBrPiqZ7Xv8pzjvV6gkzl0TJzPjWM2ZxPjuyQTwzua+IuJayYOOMMs1/n+ALRtCdMh8+jaAAAAAElFTkSuQmCC"
+            />
+            <!---->
+          </div>
+        </div>
+        <div data-v-75b6f434 class="input">
+          <div data-v-75b6f434 class="input-div" auto-focus="true">
+            <div class="uni-input-wrapper">
+              <div class="uni-input-placeholder input-placeholder" data-v-75b6f434 v-show="show">搜索演出关键字</div>
+              <form action class="uni-input-form">
+                <input
+                  maxlength="140"
+                  step
+                  autocomplete="off"
+                  type="search"
+                  class="uni-input-input"
+                  @keyup.enter="toInputSearch"
+                  @focus="getValue"
+                  @blur="getValue"
+                  @input="searchValue($event)"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-v-75b6f434 class="s-right" @click="goToIndex">取消</div>
+    </div>
 </template>
 
 <script>
-import headerBox from '@/components/header'
-import searchBox from '@/components/searchBox'
-import { getSeachP } from '@/api/searchp'
-import { uniView } from '@/components/uni'
 export default {
-  name: 'Search',
-
-  components: {
-    headerBox: headerBox,
-    uniView: uniView,
-    searchBox: searchBox
-  },
+  name: 'searchBox',
 
   data () {
     return {
-      searchParam: []
+      show: true,
+      word: ''
     }
   },
 
@@ -39,40 +53,38 @@ export default {
       this.$router.push('/home')
     },
 
-    /**
-     * 词条点击
-     */
-    goToResult (style) {
-      // 保存
-      // 跳转
+    getValue () {
+      this.show = !this.show
+    },
+
+    searchValue (keyword) {
+      this.word = event.currentTarget.value
+    },
+
+    toInputSearch (keyword) {
       this.$router.push({
         path: '/searchresult',
         query: {
-          style
+          keyword: this.word
         }
       })
     }
-  },
-
-  created () {
-    getSeachP()
-      .then(res => {
-        // console.log(res)
-        this.searchParam = res.result[0].tags
-      })
-      .catch((err) => {
-        console.log(err)
-        alert('网络异常，请稍后重试')
-      })
   }
 }
 </script>
 
+<style>
+
+</style>
 <style type="scss">
 .uni-input-form {
   height: 100%;
 }
-.uni-input-input {
+.uni-input-input{
+  width: 238px;
+  height: 30px;
+}
+.input-div {
   display: block;
   height: 100%;
   background: none;
@@ -82,7 +94,7 @@ export default {
   font: inherit;
   line-height: inherit;
   letter-spacing: inherit;
-  text-align: inherit;
+  text-align: center;
   text-indent: inherit;
   text-transform: inherit;
   text-shadow: inherit;
@@ -90,6 +102,7 @@ export default {
 .uni-input-wrapper {
   display: flex;
   position: relative;
+  justify-content: center;
 }
 .uni-input-placeholder {
   font-size: 16px;
@@ -155,7 +168,7 @@ export default {
   -webkit-flex: 1;
   flex: 1;
 }
-.search .s-left .input uni-input[data-v-75b6f434] {
+.search .s-left .input .input-div[data-v-75b6f434] {
   font-size: 13px;
   vertical-align: middle;
 }
@@ -187,7 +200,7 @@ export default {
 }
 </style>
 <style type="scss">
-.uni-input-input {
+.input-div {
   display: block;
   height: 100%;
   background: none;

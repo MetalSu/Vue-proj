@@ -24,7 +24,7 @@ const router = new VueRouter({
     { path: '/raise', component: Raise },
     { path: '/rim', component: Rim },
     { path: '/search', component: Search },
-    { path: '/search-result', component: SearchResult },
+    { path: '/searchresult', component: SearchResult },
     { path: '/', redirect: '/home' }
   ]
 

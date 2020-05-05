@@ -5,6 +5,7 @@ import uniNavigator from './uniNavigator.vue'
 import uniText from './uniText.vue'
 import uniRichText from './uniRichText.vue'
 import uniTabbar from './uniTabbar.vue'
+import uniInput from './uniInput.vue'
 
 // 暴露
 export {
@@ -13,5 +14,6 @@ export {
   uniNavigator,
   uniText,
   uniRichText,
-  uniTabbar
+  uniTabbar,
+  uniInput
 }
